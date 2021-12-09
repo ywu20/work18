@@ -22,17 +22,17 @@ int main (){
     int status, w;
     close(fds[READ]);
     close(fds2[WRITE]);
-    char inputs[10];
+    char inputs[50];
 
     while(strcmp("exit\n", inputs)){
-      printf("Guess the word: \n");
-      fgets(inputs,10,stdin);
+      printf("Enter the word: \n");
+      fgets(inputs,50,stdin);
       inputs[strlen(inputs)-1] = '\0';
       printf("You inputed: %s\n",inputs);
-      write(fds[WRITE], inputs, sizeof(inputs));
-      char len [10];
-      read(fds2[READ],len,sizeof(len));
-       printf("Response from child: %s\n", len);
+      write(fds[WRITE], inputs, 50);
+      char result [50];
+      read(fds2[READ],result,50);
+       printf("Response from child: %s\n", result);
 
    }
 
@@ -40,19 +40,19 @@ int main (){
   }else{
     close(fds[WRITE]);
     close(fds2[READ]);
-    char inputs[10];
+    char inputs[50];
 
     //printf("Reead : %d\n", read(fds[READ], inputs, sizeof(inputs)));
-    while (read(fds[READ], inputs, sizeof(inputs))){
+    while (read(fds[READ], inputs, 50)){
 
     printf("Child got: %s \n", inputs);
-    char response[10];
+    char response[50];
     int i;
-    for(i=0;i<strlen(inputs);i++){
+    for(i=0;i<50;i++){
       response[i] = toupper(inputs[i]);
     }
-    int a= write(fds2[WRITE], response, strlen(response));
-    printf("wrote %d bytes\n", a);
+    int a= write(fds2[WRITE], response, 50);
+    //printf("wrote %d bytes\n", a);
    }
 
   }
