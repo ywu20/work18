@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include<string.h>
 #include <sys/wait.h>
+#include<ctype.h>
 #define READ 0
 #define WRITE 1
 
@@ -45,8 +46,12 @@ int main (){
     while (read(fds[READ], inputs, sizeof(inputs))){
 
     printf("Child got: %s \n", inputs);
-
-    int a= write(fds2[WRITE], "Blah", 4);
+    char response[10];
+    int i;
+    for(i=0;i<strlen(inputs);i++){
+      response[i] = toupper(inputs[i]);
+    }
+    int a= write(fds2[WRITE], response, strlen(response));
     printf("wrote %d bytes\n", a);
    }
 
